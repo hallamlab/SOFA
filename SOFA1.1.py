@@ -110,7 +110,7 @@ def createParser():
     global parser
 
     usage = sys.argv[0] + """ -i <inputfolder> -s <sampleName> -o <outputFolder> --FlashExec <FLASH_executable>\n""" +\
-                      """     --FragGeneScanExec <FragGeneScan_executable> --LASTExec <LAST_executable> --stage s\n""" 
+                      """     --FragGeneScanExec <FragGeneScan_executable> --LASTExec <LAST_executable> --stage s \n(optional flags: --tempdirs t --bitScore bs  --evalue ev --tempdirs <tempdirs>\n"""
 
     epilog = """This script takes an interleved FASTQ file and uses the SOFA pipeline:
 
@@ -161,9 +161,6 @@ def createParser():
     parser.add_option('--stage', dest='stage', action='append', default=[], choices=['1', '2', '3', '4' ], 
                            help='The stages to execute 1 : FLASH; 2 : Format files; 3 : FragGeneScan+ and  4 : Deduplication ')
 
-    parser.add_option('--tempdirs', dest='tempdirs', action='append', default=[],  
-                           help='the temp dirs to use - default is usually fine (no need to specify) ')
-
     parser.add_option('--threads', dest='threads', default=1,
                            help='the number of threads to use with FragGeneScan+')
     
@@ -172,6 +169,9 @@ def createParser():
                            
     parser.add_option('--evalue', dest='evalue', default=0.000001,
                            help='Optional e-value cutoff value (0.000901)')
+                        
+    parser.add_option('--tempdirs', dest='tempdirs', action='append', default=[],  
+                           help='the temp dirs to use - default is usually fine (no need to specify) ')
 
 
 
