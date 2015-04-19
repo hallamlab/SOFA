@@ -1,2 +1,14 @@
-# OSX Garbage
-.DS_Store
+*.o
+*/TestDB/*
+*/last-merge-batches
+*/lastex
+*/lastal
+*/lastdb
+*/last-split
+
+*/out*
+*.faa
+*.txt
+*/FGS+
+
+*/flash
