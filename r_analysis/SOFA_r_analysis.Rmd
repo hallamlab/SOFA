@@ -1,6 +1,6 @@
 ---
 title: "SOFA Supplementary Methods"
-author: "Niels Hanson"
+author: "Aria S. Hahn, Niels W. Hanson, Dongjae Kim, Kishori M. Konwar, and Steven J. Hallam"
 date: "March 28, 2015"
 output:
   html_document:
@@ -110,4 +110,4 @@ p1
 dev.off()
 ```
 
-Please send questions and comments to Dr. Steven J. Hallam <shallam@mail.ubc.ca>
+Please send questions and comments to Dr. Steven J. Hallam (<shallam@mail.ubc.ca>)

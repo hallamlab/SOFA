@@ -1,5 +1,5 @@
 # SOFA Supplementary Methods
-Niels Hanson  
+Aria S. Hahn, Niels W. Hanson, Dongjae Kim, Kishori M. Konwar, and Steven J. Hallam  
 March 28, 2015  
 
 This document demonstrates the details of the *E.coli* simulations validating the Short-ORF Functional Annotation (SOFA) pipeline. For more information see the [GitHub repo](https://github.com/hallamlab/SOFA) or the paper:
@@ -114,4 +114,4 @@ dev.off()
 ##                 2
 ```
 
-Please send questions and comments to Dr. Steven J. Hallam <shallam@mail.ubc.ca>
+Please send questions and comments to Dr. Steven J. Hallam (<shallam@mail.ubc.ca>)
