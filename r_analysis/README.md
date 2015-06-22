@@ -15,4 +15,4 @@ For more information see the RMarkdown document [SOFA_r_analysis.md](SOFA_r_anal
 * [pdfs/](pdfs/): output pdfs
 * [refs/](refs/): pdf reference material for [ggbio](http://www.tengfei.name/ggbio/) and the Genomic Ranges file format
 * [scratch/](scratch/): old code
-* [SOFA_r_analsyis.Rmd](SOFA_r_analsyis.Rmd), [SOFA_r_analsyis.md](SOFA_r_analsyis.md), [SOFA_r_analsyis.html](SOFA_r_analsyis.html): trio of formatted files detail the simulation and downstream analysis in R
+* [SOFA_r_analysis.Rmd](SOFA_r_analysis.Rmd), [SOFA_r_analysis.md](SOFA_r_analysis.md), [SOFA_r_analysis.html](SOFA_r_analysis.html): trio of formatted files detail the simulation and downstream analysis in R

@@ -12,3 +12,10 @@
 */FGS+
 
 */flash
+
+# R files
+r_analysis/.Rhistory
+r_analysis/.DS_Store
+r_analysis/.RData
+r_analysis/.Rhistory
+r_analysis/.rproj.user
