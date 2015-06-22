@@ -1,0 +1,17 @@
+{
+    "contents" : "SOFA Supplementary Analysis\n---------------------------\n\nThis directory contains code, data, and processing information to reproduce the *E. coli* simulation from the SOFA paper:\n\n* Aria S. Hahn, Niels W. Hanson, Dongjae Kim, Kishori M. Konwar, Steven J. Hallam. *Assembly independent functional annotation of short-read data using SOFA: Short-ORF Functional Annotation*, Proceedings of the 2015 IEEE Conference on Computational Intelligence in Bioinformatics and Computational Biology (CIBCB 2015), Niagara Falls, Canada, August 12-15, 2015.\n\nFor more information see the RMarkdown document [SOFA_r_analysis.md](SOFA_r_analysis.md).\n\n![Circos image of simulation](pdfs/ecoli_simulation_circos.png \"Circos image of simulation\")\n\n# Contents\n\n* [data/](data/): folder containing Python scripts, genomic sequences, and Genomic Range files for analysis\n* [pdfs/](pdfs/): output pdfs\n* [refs/](refs/): pdf reference material for [ggbio](http://www.tengfei.name/ggbio/) and the Genomic Ranges file format\n* [scratch/](scratch/): old code\n* [SOFA_r_analsyis.Rmd](SOFA_r_analsyis.Rmd), [SOFA_r_analsyis.md](SOFA_r_analsyis.md), [SOFA_r_analsyis.html](SOFA_r_analsyis.html): trio of formatted files detail the simulation and downstream analysis in R",
+    "created" : 1434933561148.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "366034424",
+    "id" : "1C87715F",
+    "lastKnownWriteTime" : 1434934283,
+    "path" : "~/Desktop/SOFA/r_analysis2/README.md",
+    "project_path" : "README.md",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "markdown"
+}

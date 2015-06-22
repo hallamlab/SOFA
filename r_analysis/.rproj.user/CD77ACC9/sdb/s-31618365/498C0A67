@@ -1,0 +1,16 @@
+{
+    "contents" : "#!/bin/bash\n\n# create genomic ranges from E.coli feature table\npython ncbi_feature_table_to_ggbio_gr.py -i ecoli/NC_000913.3.txt -o genomic_ranges/NC_000913.3_CDS_gr.txt\n\n# create simulated E.coli paired-end reads\npython SOFAMetaSimCOG.py -i ecoli/NC_000913.3.fasta -o ecoli/EcoliSim2.fasta -n 10000 -l 150 -t 301 -r 0\n\n# check for duplicates\npython count_duplicated.py -r ecoli/EcoliSim2.fasta -g genomic_ranges/NC_000913.3_CDS_gr.txt -m 30 -o genomic_ranges/EcoliSim2_dups_gr.txt\n",
+    "created" : 1434930940202.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2300990732",
+    "id" : "498C0A67",
+    "lastKnownWriteTime" : 1427712468,
+    "path" : "~/Desktop/SOFA/r_analysis2/data/run.sh",
+    "project_path" : "data/run.sh",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "sh"
+}
