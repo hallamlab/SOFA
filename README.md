@@ -7,3 +7,7 @@ Accurate description of the microbial communities driving matter and energy tran
 More usage information can be found on the [wiki](https://github.com/hallamlab/SOFA/wiki)!
 
 See [r_analysis/](r_analysis/) for more information on downstream analysis.
+
+If using SOFA for academic work, please cite:
+
+Aria S. Hahn, Niels W. Hanson, Dongjae Kim, Kishori M. Konwar, Steven J. Hallam. *Assembly independent functional annotation of short-read data using SOFA: Short-ORF Functional Annotation*, Proceedings of the 2015 IEEE Conference on Computational Intelligence in Bioinformatics and Computational Biology (CIBCB 2015), Niagara Falls, Canada, August 12-15, 2015. doi:[10.1109/CIBCB.2015.7300324](http://dx.doi.org/10.1109/CIBCB.2015.7300324).
