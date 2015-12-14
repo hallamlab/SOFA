@@ -52,6 +52,7 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
        if( O[i]=='c' ) O[i]='C';
        if( O[i]=='g' ) O[i]='G';
     }
+    //printf("%s\n",O);
 
     if (whole_genome==1){
         gene_len = 120;
@@ -115,7 +116,7 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
         }
     }
 
-    unsigned int multiple = 0;
+    int multiple=0;
     /******************************************************************/
     /*  fill out the rest of the columns                              */
     /******************************************************************/
@@ -635,11 +636,11 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
                 }
 
 
-                if (O[t] == 'A') {
+                if ((O[t] == 'A') ){
                     alpha[S_STATE][t+2] = alpha[S_STATE][t+2] - LOG_83;
-                }else if (O[t] == 'G'){
+                }else if ((O[t] == 'G')){
                     alpha[S_STATE][t+2] = alpha[S_STATE][t+2] - LOG_10;
-                }else if(O[t] == 'T') {
+                }else if((O[t] == 'T')) {
                     alpha[S_STATE][t+2] = alpha[S_STATE][t+2] - LOG_07;
                 }
 
@@ -650,15 +651,17 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
                 double sub_sum = 0;
                 int sub_count = 0;
 
-                if (t>=30) {
-                    for (i=-30; i<=30; i++) {
-                        if (t+i+2 < len_seq) {	
+                if (t>=30){
+                    for(i=-30; i<=30; i++){
+                        if (t+i+2 < len_seq)
+                        {	
                             start_freq -= (hmm_ptr->tr_S[i+30][trinucleotide(O[t+i], O[t+i+1], O[t+i+2])]);
                         }
                     }
-                } else {
-                    for( i=(-1*t); i<=30; i++){
-                        if (t+i+2 < len_seq) {	
+                }else{
+                    for(i=(-1*t); i<=30; i++){
+                        if (t+i+2 < len_seq)
+                        {	
                             sub_sum += (hmm_ptr->tr_S[i+30][trinucleotide(O[t+i], O[t+i+1], O[t+i+2])]);
                         }
                     }
@@ -699,11 +702,11 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
                 path[E_STATE_1][t+1] = E_STATE_1;
                 path[E_STATE_1][t+2] = E_STATE_1;
 
-                if (O[t+2] == 'T') {
+                if ((O[t+2] == 'T') ){
                     alpha[E_STATE_1][t+2] = alpha[E_STATE_1][t+2] - LOG_83;
-                }else if (O[t+2] == 'C') {
+                }else if ((O[t+2] == 'C') ){
                     alpha[E_STATE_1][t+2] = alpha[E_STATE_1][t+2] - LOG_10;
-                }else if(O[t+2] == 'A') {
+                }else if((O[t+2] == 'A') ){
                     alpha[E_STATE_1][t+2] = alpha[E_STATE_1][t+2] - LOG_07;
                 }
 
@@ -760,9 +763,12 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
     }
 
 
+
+
     /***********************************************************/
     /* backtrack array to find the optimal path                */
     /***********************************************************/
+
 
     sprintf(output_buffer, "%s\n", sequence_head);
 
@@ -775,6 +781,15 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
             prob = alpha[i][len_seq-1];
             vpath[len_seq-1] = i;
         }
+
+        //!! I believe the len_seq-1 is due to the guy thinking that strlen counted the null terminator.
+        //!! I don't understand the purpose of this loop. Especially vpath[len_seq] = i; it doesnt make much sense
+        /*
+           if (alpha[i][len_seq] < prob) {
+           prob = alpha[i][len_seq];
+           vpath[len_seq] = i;
+           }
+         */
     }
 
     /* backtrack the opitmal path */
@@ -801,6 +816,7 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
             /*
                Yeah, no clue about this but it will make it run faster and add length figure it out whenever w.e
              */
+
 
                memset(dna,0,1500);
                memset(dna1,0,1500);
@@ -855,12 +871,9 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
             //!! Transfer all of the output buffer writing code to another function. Modularize this.
 
             if (dna_id > gene_len) {
-
-                print_outputs(codon_start, start_t, end_t, frame, output_buffer, aa_buffer, dna_buffer, 
-                    sequence_head, dna, dna1, dna_f, dna_f1, protein, insert, c_delete, insert_id, 
-                    delete_id, format, temp_str_ptr, multiple);
+                print_outputs(codon_start, start_t, end_t, frame, output_buffer, aa_buffer, dna_buffer, sequence_head, 
+                        dna, dna1, dna_f, dna_f1, protein, insert, c_delete, insert_id, delete_id, format, temp_str_ptr,multiple);
                 multiple++;
-
             }
 
             codon_start = 0;
@@ -876,7 +889,7 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
 
             if (vpath[t] < prev_match){
                 out_nt = vpath[t]+6-prev_match;
-            } else {
+            }else{
                 out_nt = vpath[t]-prev_match;
             }
             for (kk=0; kk<out_nt; kk++){   /* for deleted nt in reads */
@@ -893,7 +906,7 @@ void viterbi(HMM *hmm_ptr, char *O, char* output_buffer, char* aa_buffer, char *
             dna_f[dna_f_id] = O[t];
             prev_match = vpath[t];
 
-        } else if (codon_start != 0 &&
+        }else if (codon_start != 0 &&
                 ((vpath[t] >= I1_STATE && vpath[t] <= I6_STATE) ||
                  (vpath[t] >= I1_STATE_1 && vpath[t] <= I6_STATE_1))){
             dna_f_id ++;
@@ -1144,16 +1157,19 @@ void get_train_from_file(char *filename, HMM *hmm_ptr, char *mfilename,
 
 }
 
-void print_outputs(int codon_start, int start_t, int end_t, int frame, char* output_buffer, char* aa_buffer, 
-        char* dna_buffer, char* sequence_head_short, char* dna, char* dna1, char* dna_f, char* dna_f1, 
-        char* protein, int* insert, int* c_delete, int insert_id, int delete_id, int format, 
-        char* temp_str_ptr, unsigned int multiple) {
+void print_outputs(int codon_start, int start_t, int end_t, int frame, char* output_buffer, char* aa_buffer, char* dna_buffer, 
+        char* sequence_head_short, char* dna, char* dna1, char* dna_f, char* dna_f1, char* protein,
+        int* insert, int* c_delete, int insert_id, int delete_id, int format, char* temp_str_ptr, unsigned int multiple) {
 
     int i;
     char tab[] = "\t";
 
+
+    
+
     if (codon_start == 1) {
 
+        //sprintf(temp_str_ptr, "%d\t%d\t+\t%d\t%lf\t", start_t, end_t, frame, final_score); 
         sprintf(temp_str_ptr, "%d\t%d\t+\t%d\t", start_t, end_t, frame); 
         strcat(output_buffer, temp_str_ptr);
         sprintf(temp_str_ptr, "I:");
@@ -1177,10 +1193,10 @@ void print_outputs(int codon_start, int start_t, int end_t, int frame, char* out
         strcat(output_buffer, temp_str_ptr);
 
         sprintf(temp_str_ptr, "%s_%d_%d_+\n", sequence_head_short, start_t, end_t);
+        
+        if(multiple)  strcat(aa_buffer, tab);
 
-        if(multiple) strcat(aa_buffer, temp_str_ptr);
-
-        //strcat(aa_buffer, tab);
+        strcat(aa_buffer, temp_str_ptr);
 
         sprintf(temp_str_ptr, "%s_%d_%d_+\n", sequence_head_short, start_t, end_t);
         strcat(dna_buffer, temp_str_ptr);
@@ -1196,7 +1212,7 @@ void print_outputs(int codon_start, int start_t, int end_t, int frame, char* out
         strcat(dna_buffer, temp_str_ptr);
 
     } else if (codon_start == -1) {
-
+        //sprintf(temp_str_ptr, "%d\t%d\t-\t%d\t%lf\t", start_t, end_t, frame, final_score);
         sprintf(temp_str_ptr, "%d\t%d\t-\t%d\t", start_t, end_t, frame);
         strcat(output_buffer, temp_str_ptr);
         sprintf(temp_str_ptr, "I:");
@@ -1220,10 +1236,39 @@ void print_outputs(int codon_start, int start_t, int end_t, int frame, char* out
 
         sprintf(temp_str_ptr, "%s_%d_%d_-\n", sequence_head_short, start_t, end_t);
 
-        if(multiple) strcat(aa_buffer, tab);
-
+        if(multiple)  strcat(aa_buffer, tab);
         strcat(aa_buffer, temp_str_ptr);
 
+
+        sprintf(temp_str_ptr, "%s_%d_%d_+\n", sequence_head_short, start_t, end_t);
+        strcat(dna_buffer, temp_str_ptr);
+
+        get_protein(dna,protein,1);
+        sprintf(temp_str_ptr, "%s\n", protein);
+        strcat(aa_buffer, temp_str_ptr);
+        if (format == 0){
+            sprintf(temp_str_ptr, "%s\n", dna);
+        }else if (format == 1){
+            sprintf(temp_str_ptr, "%s\n", dna_f);
+        }
+        strcat(dna_buffer, temp_str_ptr);
+
+    } 
+    else if (codon_start == -1) {
+
+        //sprintf(temp_str_ptr, "%d\t%d\t-\t%d\t%lf\t", start_t, end_t, frame, final_score);
+        sprintf(temp_str_ptr, "%d\t%d\t-\t%d\t", start_t, end_t, frame);
+        strcat(output_buffer, temp_str_ptr);
+        sprintf(temp_str_ptr, "I:");
+        strcat(output_buffer, temp_str_ptr);
+
+        for (i = 0; i < insert_id; i++){
+            sprintf(temp_str_ptr, "%d,", insert[i]);
+            strcat(output_buffer, temp_str_ptr);
+        }
+
+        sprintf(temp_str_ptr, "\tD:");
+        strcat(aa_buffer, temp_str_ptr);
         sprintf(temp_str_ptr, "%s_%d_%d_-\n", sequence_head_short, start_t, end_t);
         strcat(dna_buffer, temp_str_ptr);
 
@@ -1231,9 +1276,7 @@ void print_outputs(int codon_start, int start_t, int end_t, int frame, char* out
         get_rc_dna(dna, dna1);
         get_rc_dna_indel(dna_f, dna_f1);
         sprintf(temp_str_ptr, "%s\n", protein);
-
-        if(multiple) strcat(aa_buffer, tab);
-
+        if(multiple)  strcat(aa_buffer, tab);
         strcat(aa_buffer, temp_str_ptr);
 
         if (format == 0) {

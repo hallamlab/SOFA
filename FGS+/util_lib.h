@@ -19,9 +19,6 @@ int nt2int_rc (char nt);
 
 int trinucleotide (char a, char b, char c);
 void get_protein(char *dna, char *protein, int strand);
-
-void get_rc_dna(char *dna, char *dna1);
-
 void print_usage();
 
 typedef struct q {
@@ -41,6 +38,5 @@ void enq(thread_data* td, unsigned int buffer, unsigned int which);
 QUEUE* deq(unsigned int which);  
 
 void cutnpaste_q(QUEUE** dest, unsigned int which); 
-void enqueue(thread_data* td, unsigned int buffer, unsigned int which);
 
 #endif

@@ -101,7 +101,7 @@
  */
 FASTAFILE * OpenFASTA(char *seqfile) {
   FASTAFILE *ffp;
-  ffp = (FASTAFILE*)malloc(sizeof(FASTAFILE));
+  ffp = malloc(sizeof(FASTAFILE));
   ffp->fp = fopen(seqfile, "r");              /* Assume seqfile exists & readable!   */
   if (ffp->fp == NULL) { free(ffp); return NULL; } 
   if ((fgets(ffp->buffer, FASTA_MAXLINE, ffp->fp)) == NULL)
@@ -127,7 +127,7 @@ ReadFASTA(FASTAFILE *ffp, char **ret_seq, char **ret_name, int *ret_L)
   s  = strtok(ffp->buffer+1, " \t\n");
   //name = malloc(sizeof(char) * (strlen(s)+1));
   if( name==0)
-     name = (char*)malloc(sizeof(char) * 1024);
+     name = malloc(sizeof(char) * 1024);
   strcpy(name, s);
 
   /* Everything else 'til the next descline is the sequence.
@@ -136,7 +136,7 @@ ReadFASTA(FASTAFILE *ffp, char **ret_seq, char **ret_name, int *ret_L)
    * sequence length.
    */
   if( seq==0)
-    seq = (char*)malloc(sizeof(char) * 1024);     /* allocate seq in blocks of 128 residues */
+    seq = malloc(sizeof(char) * 1024);     /* allocate seq in blocks of 128 residues */
   nalloc = 128;
   n = 0;
   while (fgets(ffp->buffer, FASTA_MAXLINE, ffp->fp))
@@ -152,7 +152,7 @@ ReadFASTA(FASTAFILE *ffp, char **ret_seq, char **ret_name, int *ret_L)
 	  if (nalloc == n)	        /* are we out of room in seq? if so, expand */
 	    {			        /* (remember, need space for the final '\0')*/
 	      nalloc += 128;
-	      seq = (char*)realloc(seq, sizeof(char) * nalloc);
+	      seq = realloc(seq, sizeof(char) * nalloc);
 	    }
 	}
     }

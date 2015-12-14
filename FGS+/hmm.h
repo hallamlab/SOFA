@@ -1,7 +1,6 @@
 #ifndef __HMM_H
 #define __HMM_H
 
-
 #include <ctype.h>
 #include <unistd.h>
 #include <string.h>
@@ -19,25 +18,11 @@
 #include <ctype.h>
 #include "fasta.h"
 
+
 #define DONE_Q 0
 #define EMPTY_Q 1
 #define STRINGLEN 512
 #define max_dbl 10000000000.0
-
-
-#ifdef MAC_SEM
-        #define SEM_POST(x) sem_post(x)
-        #define SEM_WAIT(x) sem_wait(x)
-#else
-        #define SEM_POST(x) sem_post(&x)
-        #define SEM_WAIT(x) sem_wait(&x)
-#endif
-
-#ifdef MAC_SEM
-        typedef sem_t* SEM_T;
-#else
-        typedef sem_t SEM_T;
-#endif
 
 #define LOG_53 -0.63487827243
 #define LOG_16 -1.83258146375
@@ -120,11 +105,17 @@ char train_dir[STRINGLEN];
 
 // semaphores
 
-SEM_T sema_Q;
-SEM_T sema_R;
-SEM_T sema_r;
-SEM_T sema_w;
-
+#ifdef MAC_SEM
+sem_t *sema_Q;
+sem_t *sema_R;
+sem_t *sema_r;
+sem_t *sema_w;
+#else
+sem_t sema_Q;
+sem_t sema_R;
+sem_t sema_r;
+sem_t sema_w;
+#endif
 typedef struct {
 
     double  pi[29];    /* pi[1..N] pi[i] is the initial state distribution. */
@@ -195,9 +186,14 @@ typedef struct thread_data
 
     unsigned int** acceptable_buffer;
 
-    SEM_T sema_r;
-    SEM_T sema_w;
 
+#ifdef MAC_SEM
+    sem_t *sema_r;
+    sem_t *sema_w;
+#else
+    sem_t sema_r;
+    sem_t sema_w;
+#endif
 } thread_data;
 
 thread_data *thread_datas;
@@ -229,7 +225,6 @@ void print_usage();
 void free_thread_data(thread_data* td);
 void print_outputs(int codon_start, int start_t, int end_t, int frame, char* output_buffer, char* aa_buffer, 
         char* dna_buffer, char* sequence_head_short, char* dna, char* dna1, char* dna_f, char* dna_f1, 
-        char* protein, int* insert, int* c_delete, int insert_id, int delete_id, int format, char* temp_str_ptr,
-        unsigned int multiple);
+        char* protein, int* insert, int* c_delete, int insert_id, int delete_id, int format, char* temp_str_ptr, unsigned int multiple);
 
 #endif
