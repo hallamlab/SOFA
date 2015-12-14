@@ -80,6 +80,8 @@ class FastaReader():
 
 def getstatusoutput(cmd):
     """Return (status, output) of executing cmd in a shell."""
+    print "In getstatusoutput:"
+    print cmd
     pipe = popen(cmd + ' 2>&1', 'r')
     text = pipe.read()
     sts = pipe.close()
@@ -110,9 +112,9 @@ def createParser():
     global parser
 
     usage = sys.argv[0] + """ -i <inputfolder> -s <sampleName> -o <outputFolder> --FlashExec <FLASH_executable>\n""" +\
-                      """     --FragGeneScanExec <FragGeneScan_executable> --LASTExec <LAST_executable> --stage s \n(optional flags: --tempdirs t --bitScore bs  --evalue ev --tempdirs <tempdirs>)\n"""
+                      """     --FragGeneScanExec <FragGeneScan_executable> --LASTExec <LAST_executable> --stage s\n""" 
 
-    epilog = """This script takes an interleaved FASTQ file and uses the SOFA pipeline:
+    epilog = """This script takes an interleved FASTQ file and uses the SOFA pipeline:
 
              Stage 1. : SOFA uses FLASH to merge pairs of reads when possible and produces two
 			 FASTQ file containing merged and unmerged reads
@@ -161,6 +163,9 @@ def createParser():
     parser.add_option('--stage', dest='stage', action='append', default=[], choices=['1', '2', '3', '4' ], 
                            help='The stages to execute 1 : FLASH; 2 : Format files; 3 : FragGeneScan+ and  4 : Deduplication ')
 
+    parser.add_option('--tempdirs', dest='tempdirs', action='append', default=[],  
+                           help='the temp dirs to use - default is usually fine (no need to specify) ')
+
     parser.add_option('--threads', dest='threads', default=1,
                            help='the number of threads to use with FragGeneScan+')
     
@@ -168,13 +173,10 @@ def createParser():
                            help='Optional bit-Score cutoff value (default is 20)')
                            
     parser.add_option('--evalue', dest='evalue', default=0.000001,
-                           help='Optional e-value cutoff value (0.000001)')
-                        
-    parser.add_option('--tempdirs', dest='tempdirs', action='append', default=[],  
-                           help='the temp dirs to use - default is usually fine (no need to specify) ')
+                           help='Optional e-value cutoff value (0.000901)')
 
 
-
+result = None
 inputfiles = []
 
 def  _execute_LAST(lastargs):
@@ -201,14 +203,14 @@ def  _execute_LAST(lastargs):
        args += [ lastargs['query_file'] ]
 
     try:
-       result = getstatusoutput(' '.join(args) )
-       
-       rename( lastargs['last_output']+ ".tmp",lastargs['last_output']) 
+        args = map(str, args) 
+        result = getstatusoutput(' '.join(args) )
+        rename( lastargs['last_output']+ ".tmp",lastargs['last_output']) 
     except:
-       message = "Could not run LASTAL correctly"
-       if result and len(result) > 1:
-          message = result[1]
-       return (1, message)
+        message = "Could not run LASTAL correctly"
+        if result and len(result) > 1:
+            message = result[1]
+            return (1, message)
 
     return (result[0], result[1])
       
@@ -273,11 +275,13 @@ def preProcess(options):
 
        preprocessedfile.close()
        mapfile.close()
+    	
 
     except:
        print "Something went wrong"
        print traceback.print_exc(10)
        sys.exit(0)
+    return True;
 
 
 def preProcessFile(options, filename, preprocessedfile, mapfile, flipMe=False):
@@ -541,8 +545,8 @@ def main(argv, errorlogger = None, runcommand = None, runstatslogger = None):
 
     if '2' in options.stage:
     	print "Running : FASTQ to FASTA "
-        preProcess(options)
-        if result[0]==0:
+        got_result = preProcess(options)
+        if got_result:
            print "Success : FASTQ to FASTA "
 
 
@@ -557,7 +561,7 @@ def main(argv, errorlogger = None, runcommand = None, runstatslogger = None):
         print "Running : Deduplication "
         result =  runDereplication(options)
         if result[0]==0:
-           print "Success : Dereplication "
+           print "Success : Deduplication "
         else:
           return (1,'ERROR : Could not run Dereplication successfully!')
 
