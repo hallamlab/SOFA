@@ -1,5 +1,5 @@
 LAST = LAST
-FragGeneScanPlus = FragGeneScanPlus
+FragGeneScanPlus = FGS+
 FLASH = FLASH
 
 all:
